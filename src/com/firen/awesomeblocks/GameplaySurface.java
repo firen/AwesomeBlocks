@@ -8,6 +8,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.text.BoringLayout;
+import android.text.method.MovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -104,8 +105,10 @@ public class GameplaySurface extends View {
 			if (p.x < this.board.getWidth() && p.y < this.board.getHeight()) {
 				if (isPointInTheBoard(p.x, p.y)) {
 					if (this.board.isSelected(p.x, p.y)) {
-						removeSelectedBlocks();
 						score += this.board.getSelectedBlocksCount() * 100;
+						removeSelectedBlocks();
+						this.board.clearSelection();
+						this.board.moveDownBlocks();
 					} else {
 						this.board.clearSelection();
 						this.board.setSelected(p.x, p.y, true);

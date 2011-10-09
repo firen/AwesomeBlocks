@@ -53,6 +53,26 @@ public class Board {
 		return count;
 	}
 
+	public void moveDownBlocks() {
+		for (int i = getHeight() - 2; i >= 0; i--) {
+			for (int j = 0; j < getWidth(); j++) {
+				int tmp = i;
+				while (tmp < getHeight() - 1) {
+					if (this.getTilePalleteIndex(j, tmp + 1) == -1) {
+						tmp++;
+					} else {
+						break;
+					}
+				}
+				if (tmp > i) {
+					this.setTilePalleteIndex(j, tmp,
+							this.getTilePalleteIndex(j, i));
+					this.setTilePalleteIndex(j, i, -1);
+				}
+			}
+		}
+	}
+
 	public void setSelected(int x, int y, boolean selected) {
 		this.selectedTiles[y][x] = selected;
 	}

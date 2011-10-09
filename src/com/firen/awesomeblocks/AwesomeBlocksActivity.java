@@ -8,6 +8,7 @@ public class AwesomeBlocksActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new GameplaySurface(this));
+        GameplaySurface gameplaySurface = new GameplaySurface(this);
+        setContentView(gameplaySurface);
     }
 }

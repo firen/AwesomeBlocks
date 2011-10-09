@@ -11,14 +11,27 @@ public class Board {
 		for (int i = 0; i < height; i++) {
 			tiles[i] = new int[width];
 		}
+		this.pallete = pallete;
 	}
 
 	public Board() {
 		this(10, 10, new int[] { 0, -1 });
 	}
 
-	public int getTileValue(int x, int y) {
+	public int getTilePalleteIndex(int x, int y) {
 		return this.tiles[y][x];
+	}
+	
+	public int getTileColor( int x, int y ) {
+		return this.pallete[this.tiles[y][x]];
+	}
+	
+	public int getWidth() {
+		return this.tiles[0].length;
+	}
+	
+	public int getHeight() {
+		return this.tiles.length;
 	}
 
 	static void generateBoardTiles(Board board) {

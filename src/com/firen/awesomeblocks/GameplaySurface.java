@@ -19,24 +19,30 @@ public class GameplaySurface extends View {
 
 	private int marginY;
 
+	private int score;
+
 	public static final int BLOCK_WIDTH = 30;
 	public static final int BLOCK_HEIGHT = 30;
 
 	public GameplaySurface(Context context, Board board) {
 		super(context);
 		this.board = board;
+		this.marginY = 30;
 	}
 
 	public void setBoard(Board board) {
 		this.board = board;
-		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth() * BLOCK_WIDTH * 0.5);
-//		this.marginY = (int) (this.getHeight() * 0.5 - board.getHeight() * BLOCK_HEIGHT * 0.5);
+		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth()
+				* BLOCK_WIDTH * 0.5);
+		// this.marginY = (int) (this.getHeight() * 0.5 - board.getHeight() *
+		// BLOCK_HEIGHT * 0.5);
 	}
-	
+
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth() * BLOCK_WIDTH * 0.5);
+		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth()
+				* BLOCK_WIDTH * 0.5);
 	}
 
 	private Rect calcBlockRect(int x, int y) {
@@ -48,7 +54,14 @@ public class GameplaySurface extends View {
 	}
 
 	private Point getTileLocation(int x, int y) {
-		return new Point((x - marginX) / BLOCK_WIDTH, (y - marginY) / BLOCK_HEIGHT);
+		return new Point((x - marginX) / BLOCK_WIDTH, (y - marginY)
+				/ BLOCK_HEIGHT);
+	}
+
+	private void drawScore(Canvas canvas) {
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		canvas.drawText(Integer.toString(this.score), .0f, 15.0f, paint);
 	}
 
 	private void drawBoard(Canvas canvas) {
@@ -80,6 +93,7 @@ public class GameplaySurface extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		drawBoard(canvas);
+		drawScore(canvas);
 	}
 
 	@Override
@@ -88,14 +102,17 @@ public class GameplaySurface extends View {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			Point p = getTileLocation((int) event.getX(), (int) event.getY());
 			if (p.x < this.board.getWidth() && p.y < this.board.getHeight()) {
-				if (this.board.isSelected(p.x, p.y)) {
-					removeSelectedBlocks();
-				} else {
-					this.board.clearSelection();
-					this.board.setSelected(p.x, p.y, true);
-					selectNeighbourBlocks(p.x, p.y);
+				if (isPointInTheBoard(p.x, p.y)) {
+					if (this.board.isSelected(p.x, p.y)) {
+						removeSelectedBlocks();
+						score += this.board.getSelectedBlocksCount() * 100;
+					} else {
+						this.board.clearSelection();
+						this.board.setSelected(p.x, p.y, true);
+						selectNeighbourBlocks(p.x, p.y);
+					}
+					invalidate();
 				}
-				invalidate();
 			}
 		}
 		return true;

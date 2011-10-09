@@ -42,6 +42,17 @@ public class Board {
 		return this.tiles.length;
 	}
 
+	public int getSelectedBlocksCount() {
+		int count = 0;
+		for (int i = 0; i < getHeight(); i++) {
+			for (int j = 0; j < getWidth(); j++) {
+				if (isSelected(j, i))
+					count++;
+			}
+		}
+		return count;
+	}
+
 	public void setSelected(int x, int y, boolean selected) {
 		this.selectedTiles[y][x] = selected;
 	}

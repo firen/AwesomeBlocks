@@ -14,8 +14,8 @@ public class GameplaySurface extends View {
 
 	private Board board;
 
-	public static final int BLOCK_WIDTH = 50;
-	public static final int BLOCK_HEIGHT = 50;
+	public static final int BLOCK_WIDTH = 30;
+	public static final int BLOCK_HEIGHT = 30;
 
 	public GameplaySurface(Context context) {
 		super(context);
@@ -59,6 +59,7 @@ public class GameplaySurface extends View {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			Point p = getTileLocation((int) event.getX(), (int) event.getY());
 			if (p.x < this.board.getWidth() && p.y < this.board.getHeight()) {
+				this.board.clearSelection();
 				this.board.setSelected(p.x, p.y, true);
 				selectNeighbourBlocks(p.x, p.y);
 				invalidate();

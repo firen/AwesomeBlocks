@@ -1,5 +1,6 @@
 package com.firen.awesomeblocks;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -47,6 +48,12 @@ public class Board {
 
 	public boolean isSelected(int x, int y) {
 		return this.selectedTiles[y][x];
+	}
+
+	public void clearSelection() {
+		for (int i = 0; i < this.getHeight(); i++) {
+			Arrays.fill(selectedTiles[i], false);
+		}
 	}
 
 	static void generateBoardTiles(Board board) {

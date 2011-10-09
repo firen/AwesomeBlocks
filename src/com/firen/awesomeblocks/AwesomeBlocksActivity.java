@@ -1,4 +1,4 @@
-package com.firen;
+package com.firen.awesomeblocks;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,6 @@ public class AwesomeBlocksActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(new GameplaySurface(this));
     }
 }

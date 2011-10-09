@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.text.BoringLayout;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,15 +15,40 @@ public class GameplaySurface extends View {
 
 	private Board board;
 
+	private int marginX;
+
+	private int marginY;
+
 	public static final int BLOCK_WIDTH = 30;
 	public static final int BLOCK_HEIGHT = 30;
 
-	public GameplaySurface(Context context) {
+	public GameplaySurface(Context context, Board board) {
 		super(context);
+		this.board = board;
 	}
 
 	public void setBoard(Board board) {
 		this.board = board;
+		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth() * BLOCK_WIDTH * 0.5);
+//		this.marginY = (int) (this.getHeight() * 0.5 - board.getHeight() * BLOCK_HEIGHT * 0.5);
+	}
+	
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth() * BLOCK_WIDTH * 0.5);
+	}
+
+	private Rect calcBlockRect(int x, int y) {
+		int left = marginX + x * BLOCK_WIDTH;
+		int top = marginY + y * BLOCK_HEIGHT;
+		int right = left + BLOCK_WIDTH;
+		int bottom = top + BLOCK_HEIGHT;
+		return new Rect(left, top, right, bottom);
+	}
+
+	private Point getTileLocation(int x, int y) {
+		return new Point((x - marginX) / BLOCK_WIDTH, (y - marginY) / BLOCK_HEIGHT);
 	}
 
 	private void drawBoard(Canvas canvas) {
@@ -33,16 +59,16 @@ public class GameplaySurface extends View {
 					if (this.board.getTilePalleteIndex(j, i) != -1) {
 						p.setColor(this.board.getTileColor(j, i));
 						p.setStyle(Paint.Style.FILL);
-						canvas.drawRect(j * BLOCK_WIDTH, i * BLOCK_HEIGHT, j
-								* BLOCK_WIDTH + BLOCK_WIDTH, i * BLOCK_HEIGHT
-								+ BLOCK_HEIGHT, p);
+						canvas.drawRect(calcBlockRect(j, i), p);
 						if (this.board.isSelected(j, i)) {
 							p.setColor(Color.RED);
 							p.setStyle(Paint.Style.STROKE);
-							canvas.drawRect(j * BLOCK_WIDTH + 1, i
-									* BLOCK_HEIGHT + 1, j * BLOCK_WIDTH
-									+ BLOCK_WIDTH - 2, i * BLOCK_HEIGHT
-									+ BLOCK_HEIGHT - 2, p);
+							Rect rect = calcBlockRect(j, i);
+							rect.left++;
+							rect.right -= 2;
+							rect.top++;
+							rect.bottom -= 2;
+							canvas.drawRect(rect, p);
 						}
 					}
 				}
@@ -131,7 +157,4 @@ public class GameplaySurface extends View {
 		}
 	}
 
-	private Point getTileLocation(int x, int y) {
-		return new Point(x / BLOCK_WIDTH, y / BLOCK_HEIGHT);
-	}
 }

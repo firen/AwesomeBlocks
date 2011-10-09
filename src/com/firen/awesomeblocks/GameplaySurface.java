@@ -109,6 +109,7 @@ public class GameplaySurface extends View {
 						removeSelectedBlocks();
 						this.board.clearSelection();
 						this.board.moveDownBlocks();
+						this.board.moveLeftBlocks();
 					} else {
 						this.board.clearSelection();
 						this.board.setSelected(p.x, p.y, true);

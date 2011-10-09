@@ -73,6 +73,26 @@ public class Board {
 		}
 	}
 
+	public void moveLeftBlocks() {
+		for (int j = 0; j < getWidth() - 1; j++) {
+			if (this.getTilePalleteIndex(j, getHeight() - 1) == -1) {
+				int tmp = j;
+				while (tmp < getWidth() - 1) {
+					if (this.getTilePalleteIndex(++tmp, getHeight() - 1) != -1) {
+						break;
+					}
+				}
+				if (tmp > j) {
+					for (int ii = 0; ii < getHeight(); ii++) {
+						this.setTilePalleteIndex(j, ii,
+								this.getTilePalleteIndex(tmp, ii));
+						this.setTilePalleteIndex(tmp, ii, -1);
+					}
+				}
+			}
+		}
+	}
+
 	public void setSelected(int x, int y, boolean selected) {
 		this.selectedTiles[y][x] = selected;
 	}

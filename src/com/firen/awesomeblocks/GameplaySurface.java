@@ -30,17 +30,20 @@ public class GameplaySurface extends View {
 			Paint p = new Paint();
 			for (int i = 0; i < this.board.getHeight(); i++) {
 				for (int j = 0; j < this.board.getWidth(); j++) {
-					p.setColor(this.board.getTileColor(j, i));
-					p.setStyle(Paint.Style.FILL);
-					canvas.drawRect(j * BLOCK_WIDTH, i * BLOCK_HEIGHT, j
-							* BLOCK_WIDTH + BLOCK_WIDTH, i * BLOCK_HEIGHT
-							+ BLOCK_HEIGHT, p);
-					if (this.board.isSelected(j, i)) {
-						p.setColor(Color.RED);
-						p.setStyle(Paint.Style.STROKE);
-						canvas.drawRect(j * BLOCK_WIDTH + 1, i * BLOCK_HEIGHT
-								+ 1, j * BLOCK_WIDTH + BLOCK_WIDTH - 2, i
-								* BLOCK_HEIGHT + BLOCK_HEIGHT - 2, p);
+					if (this.board.getTilePalleteIndex(j, i) != -1) {
+						p.setColor(this.board.getTileColor(j, i));
+						p.setStyle(Paint.Style.FILL);
+						canvas.drawRect(j * BLOCK_WIDTH, i * BLOCK_HEIGHT, j
+								* BLOCK_WIDTH + BLOCK_WIDTH, i * BLOCK_HEIGHT
+								+ BLOCK_HEIGHT, p);
+						if (this.board.isSelected(j, i)) {
+							p.setColor(Color.RED);
+							p.setStyle(Paint.Style.STROKE);
+							canvas.drawRect(j * BLOCK_WIDTH + 1, i
+									* BLOCK_HEIGHT + 1, j * BLOCK_WIDTH
+									+ BLOCK_WIDTH - 2, i * BLOCK_HEIGHT
+									+ BLOCK_HEIGHT - 2, p);
+						}
 					}
 				}
 			}
@@ -59,18 +62,35 @@ public class GameplaySurface extends View {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			Point p = getTileLocation((int) event.getX(), (int) event.getY());
 			if (p.x < this.board.getWidth() && p.y < this.board.getHeight()) {
-				this.board.clearSelection();
-				this.board.setSelected(p.x, p.y, true);
-				selectNeighbourBlocks(p.x, p.y);
+				if (this.board.isSelected(p.x, p.y)) {
+					removeSelectedBlocks();
+				} else {
+					this.board.clearSelection();
+					this.board.setSelected(p.x, p.y, true);
+					selectNeighbourBlocks(p.x, p.y);
+				}
 				invalidate();
 			}
 		}
 		return true;
 	}
 
+	private void removeSelectedBlocks() {
+		for (int i = 0; i < this.board.getHeight(); i++) {
+			for (int j = 0; j < this.board.getWidth(); j++) {
+				if (this.board.isSelected(j, i)) {
+					this.board.setTilePalleteIndex(j, i, -1);
+				}
+			}
+		}
+	}
+
 	private boolean isPointInTheBoard(int x, int y) {
-		return !(x < 0 || x >= this.board.getWidth() || y < 0 || y >= this.board
-				.getHeight());
+		if (!(x < 0 || x >= this.board.getWidth() || y < 0 || y >= this.board
+				.getHeight())) {
+			return this.board.getTilePalleteIndex(x, y) != -1;
+		}
+		return false;
 	}
 
 	private boolean isPointThatSameColor(int x1, int y1, int x2, int y2) {

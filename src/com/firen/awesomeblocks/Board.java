@@ -23,7 +23,7 @@ public class Board {
 	}
 
 	public Board() {
-		this(10, 10, new int[] { 0, -1 });
+		this(10, 10, new int[] { 0xff0000ff, -1 });
 	}
 
 	public int getTilePalleteIndex(int x, int y) {
@@ -63,5 +63,9 @@ public class Board {
 				board.tiles[i][j] = r.nextInt(board.pallete.length);
 			}
 		}
+	}
+
+	public void setTilePalleteIndex(int x, int y, int index) {
+		this.tiles[y][x] = index;
 	}
 }

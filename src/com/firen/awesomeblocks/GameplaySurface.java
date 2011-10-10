@@ -45,7 +45,7 @@ public class GameplaySurface extends View {
 		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth()
 				* BLOCK_WIDTH * 0.5);
 	}
-
+	
 	private Rect calcBlockRect(int x, int y) {
 		int left = marginX + x * BLOCK_WIDTH;
 		int top = marginY + y * BLOCK_HEIGHT;

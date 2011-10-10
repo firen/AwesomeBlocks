@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, AwesomeBlocksActivity!</string>
     <string name="app_name">AwesomeBlocks</string>
+    <string name="play_game">Graj!</string>
+    <string name="exit_game">Wyjście</string>
 </resources>

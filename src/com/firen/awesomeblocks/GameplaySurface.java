@@ -104,7 +104,7 @@ public class GameplaySurface extends View {
 			Point p = getTileLocation((int) event.getX(), (int) event.getY());
 			if (p.x < this.board.getWidth() && p.y < this.board.getHeight()) {
 				if (isPointInTheBoard(p.x, p.y)) {
-					if (this.board.isSelected(p.x, p.y)) {
+					if (this.board.isSelected(p.x, p.y) && this.board.getSelectedBlocksCount() > 1) {
 						score += this.board.getSelectedBlocksCount() * 100;
 						removeSelectedBlocks();
 						this.board.clearSelection();

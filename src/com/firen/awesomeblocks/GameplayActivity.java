@@ -12,6 +12,7 @@ public class GameplayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.board = new Board();
+		Board.generateBoardTiles(board);
 		setContentView(new GameplaySurface(this, this.board));
 	}
 

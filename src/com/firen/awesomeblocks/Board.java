@@ -1,12 +1,17 @@
 package com.firen.awesomeblocks;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 import android.util.Log;
 
-public class Board {
+public class Board implements Serializable {
+	private static final long serialVersionUID = -8085507620467446838L;
+
 	private int tiles[][];
 	private boolean selectedTiles[][];
 	private int pallete[];
@@ -113,6 +118,45 @@ public class Board {
 			for (int j = 0; j < board.tiles[i].length; j++) {
 				board.tiles[i][j] = r.nextInt(board.pallete.length);
 			}
+		}
+	}
+
+	static Board createBoard(InputStream inputStream) {
+		DataInputStream dataInputStream = null;
+		try {
+			dataInputStream = new DataInputStream(inputStream);
+			int width = dataInputStream.readUnsignedByte();
+			int height = dataInputStream.readUnsignedByte();
+			int palleteSize = dataInputStream.readUnsignedByte();
+			int pallete[] = new int[palleteSize];
+			for (int i = 0; i < palleteSize; i++) {
+				pallete[i] = dataInputStream.readInt();
+			}
+			byte[] boardBuffer = new byte[width * height];
+			dataInputStream.read(boardBuffer);
+			Board board = new Board(width, height, pallete);
+			board.setBoard(boardBuffer);
+			return board;
+		} catch (IOException e) {
+			Log.e(Board.class.getSimpleName(),
+					"Wrong file format or broken file", e);
+		} finally {
+			if (dataInputStream != null) {
+				try {
+					dataInputStream.close();
+				} catch (IOException e) {
+					Log.e(Board.class.getSimpleName(),
+							"Cannot close the stream", e);
+				}
+			}
+		}
+		return null;
+	}
+
+	private void setBoard(byte[] boardBuffer) {
+		for (int i = 0; i < boardBuffer.length; i++) {
+			setTilePalleteIndex(i % this.getWidth(), i / this.getWidth(),
+					boardBuffer[i]);
 		}
 	}
 

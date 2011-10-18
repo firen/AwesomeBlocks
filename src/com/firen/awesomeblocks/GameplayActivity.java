@@ -11,8 +11,12 @@ public class GameplayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.board = new Board();
-		Board.generateBoardTiles(board);
+		if (getIntent().hasExtra("board")) {
+			this.board = (Board) getIntent().getSerializableExtra("board");
+		} else {
+			this.board = new Board();
+			Board.generateBoardTiles(board);
+		}
 		setContentView(new GameplaySurface(this, this.board));
 	}
 

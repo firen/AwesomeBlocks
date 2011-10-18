@@ -1,10 +1,17 @@
 package com.firen.awesomeblocks;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.text.BoringLayout;
@@ -25,10 +32,14 @@ public class GameplaySurface extends View {
 	public static final int BLOCK_WIDTH = 30;
 	public static final int BLOCK_HEIGHT = 30;
 
+	private Bitmap blockBitmap;
+
 	public GameplaySurface(Context context, Board board) {
 		super(context);
 		this.board = board;
 		this.marginY = 30;
+		blockBitmap = BitmapFactory.decodeResource(getResources(),
+				R.drawable.block);
 	}
 
 	public void setBoard(Board board) {
@@ -45,7 +56,7 @@ public class GameplaySurface extends View {
 		this.marginX = (int) (this.getWidth() * 0.5 - board.getWidth()
 				* BLOCK_WIDTH * 0.5);
 	}
-	
+
 	private Rect calcBlockRect(int x, int y) {
 		int left = marginX + x * BLOCK_WIDTH;
 		int top = marginY + y * BLOCK_HEIGHT;
@@ -73,9 +84,19 @@ public class GameplaySurface extends View {
 					if (this.board.getTilePalleteIndex(j, i) != -1) {
 						p.setColor(this.board.getTileColor(j, i));
 						p.setStyle(Paint.Style.FILL);
-						canvas.drawRect(calcBlockRect(j, i), p);
+						// canvas.drawRect(calcBlockRect(j, i), p);
+						final ColorFilter colorFilter = new LightingColorFilter(
+								this.board.getTileColor(j, i), 0);
+						// final ColorFilter colorFilter = new
+						// PorterDuffColorFilter(
+						// this.board.getTileColor(j, i),
+						// PorterDuff.Mode.XOR);
+						p.setColorFilter(colorFilter);
+						canvas.drawBitmap(blockBitmap, null,
+								calcBlockRect(j, i), p);
 						if (this.board.isSelected(j, i)) {
 							p.setColor(Color.RED);
+							p.setColorFilter(null);
 							p.setStyle(Paint.Style.STROKE);
 							Rect rect = calcBlockRect(j, i);
 							rect.left++;
@@ -104,7 +125,8 @@ public class GameplaySurface extends View {
 			Point p = getTileLocation((int) event.getX(), (int) event.getY());
 			if (p.x < this.board.getWidth() && p.y < this.board.getHeight()) {
 				if (isPointInTheBoard(p.x, p.y)) {
-					if (this.board.isSelected(p.x, p.y) && this.board.getSelectedBlocksCount() > 1) {
+					if (this.board.isSelected(p.x, p.y)
+							&& this.board.getSelectedBlocksCount() > 1) {
 						score += this.board.getSelectedBlocksCount() * 100;
 						removeSelectedBlocks();
 						this.board.clearSelection();

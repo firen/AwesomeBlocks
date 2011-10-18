@@ -4,4 +4,6 @@
     <string name="app_name">AwesomeBlocks</string>
     <string name="play_game">Graj!</string>
     <string name="exit_game">Wyjście</string>
+    <string name="select_level">Wybierz poziom</string>
+    <string name="select_level_back">Wróć</string>
 </resources>

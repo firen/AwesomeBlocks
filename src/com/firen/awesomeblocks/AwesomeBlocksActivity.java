@@ -10,6 +10,7 @@ public class AwesomeBlocksActivity extends Activity {
 	/** Called when the activity is first created. */
 
 	private Intent gamePlayActivity;
+	private Intent selectLevelActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,15 @@ public class AwesomeBlocksActivity extends Activity {
 			}
 		});
 
+		button = findViewById(R.id.select_level);
+		button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(getSelectLevelActivity());
+			}
+		});
+
 		button = findViewById(R.id.exit_game);
 		button.setOnClickListener(new OnClickListener() {
 
@@ -33,6 +43,14 @@ public class AwesomeBlocksActivity extends Activity {
 			}
 		});
 
+	}
+
+	private Intent getSelectLevelActivity() {
+		if (this.selectLevelActivity == null) {
+			this.selectLevelActivity = new Intent(this,
+					SelectLevelActivity.class);
+		}
+		return this.selectLevelActivity;
 	}
 
 	private Intent getGamePlayActivity() {

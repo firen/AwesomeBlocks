@@ -15,5 +15,8 @@
 		<activity android:name=".GameplayActivity">
 		</activity>
 
+		<activity android:name=".SelectLevelActivity">
+		</activity>
+
 	</application>
 </manifest>

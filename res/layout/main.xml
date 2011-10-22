@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-    <TextView android:text="Awesome Blocks" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center"></TextView>
-    <Button android:text="@string/play_game" android:id="@+id/play_game" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-    <Button android:text="@string/select_level" android:id="@+id/select_level" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-    <Button android:text="@string/exit_game" android:id="@+id/exit_game" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+    android:orientation="vertical"
+    android:weightSum="4" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="Awesome Blocks" >
+        </TextView>
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:padding="40sp" >
+
+        <TableRow android:padding="10sp" >
+
+            <Button
+                android:id="@+id/play_game"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/play_game" >
+            </Button>
+        </TableRow>
+
+        <TableRow android:padding="10sp" >
+
+            <Button
+                android:id="@+id/select_level"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/select_level" >
+            </Button>
+        </TableRow>
+
+        <TableRow android:padding="10sp" >
+
+            <Button
+                android:id="@+id/exit_game"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/exit_game" >
+            </Button>
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

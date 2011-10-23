@@ -3,21 +3,39 @@
     android:layout_height="fill_parent"
     android:weightSum="20" >
 
-    <GridView
-        android:id="@+id/levelsGridView"
+    <ViewFlipper
+        android:id="@+id/levels_flipper"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="10sp"
-        android:numColumns="auto_fit"
-        android:padding="20sp"
-        android:verticalSpacing="10sp" >
-    </GridView>
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right" >
+    </ViewFlipper>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/previous_level"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Previous Stage" />
+
+        <Button
+            android:id="@+id/next_level"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Next Stage" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/level_select_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_level_back" 
-        android:layout_margin="50sp"/>
+        android:layout_margin="50sp"
+        android:text="@string/select_level_back" />
 
 </TableLayout>

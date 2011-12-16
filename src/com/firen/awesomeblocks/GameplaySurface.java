@@ -8,14 +8,8 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.text.BoringLayout;
-import android.text.method.MovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
 
